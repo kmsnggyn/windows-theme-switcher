@@ -1,18 +1,12 @@
 # Windows Theme Switcher
 
-Automatic| File | Purpose |
-|------|---------|
-| `SETUP.bat` | 🚀 **Double-click this first** - Easy setup launcher |y switch between Window4. Trigger: Daily at startup + every 2 hours
-
-## ❓ Troubleshootingnd dark themes with matching wallpapers.
-
-## 💻 Requirements
+Automatically switch between## 💻 Requirements
 
 - **Windows 10/11** (any recent version)
 - **PowerShell 5.1 or higher** (built into Windows)
   - ✅ Compatible with PowerShell 5.1 (Windows default)
   - ✅ Compatible with PowerShell 7+ (if installed)
-- Your wallpapers: `_DARK.jpg` and `_LIGHT.jpg`
+- Your wallpapers: `_DARK.jpg` and `_LIGHT.jpg`ows light and dark themes with matching wallpapers.
 
 ## ✨ Features
 
@@ -21,7 +15,6 @@ Automatic| File | Purpose |
 - 🖼️ **Smart Wallpapers**: Automatically changes wallpaper to match theme
 - 🎯 **Flexible Scope**: Choose full theme or apps-only changes per device
 - 🔇 **Silent Mode**: VBScript wrappers for background execution
-- 🔄 **Smart Refresh**: Updates UI without restarting Explorer
 
 ## 🚀 Quick Start
 
@@ -82,7 +75,7 @@ Automatic| File | Purpose |
 | **Script won't run at all** | Open PowerShell as Admin, navigate to folder, run `.\configure.ps1` |
 | **Config window closes immediately** | Run from PowerShell directly, not by double-clicking |
 | Wallpaper not changing | Check `_DARK.jpg` and `_LIGHT.jpg` exist in script folder |
-| UI looks weird after theme change | Scripts now auto-refresh UI without restarting Explorer |
+| UI looks weird after theme change | Restart Explorer when prompted |
 
 ---
 **MIT License** • Feel free to customize and share!
