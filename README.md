@@ -1,6 +1,12 @@
 # Windows Theme Switcher
 
-Automatically switch between Windows light and dark themes with matching wallpapers.
+Automatically switch between## 💻 Requirements
+
+- **Windows 10/11** (any recent version)
+- **PowerShell 5.1 or higher** (built into Windows)
+  - ✅ Compatible with PowerShell 5.1 (Windows default)
+  - ✅ Compatible with PowerShell 7+ (if installed)
+- Your wallpapers: `_DARK.jpg` and `_LIGHT.jpg`ows light and dark themes with matching wallpapers.
 
 ## ✨ Features
 

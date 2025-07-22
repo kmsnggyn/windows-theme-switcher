@@ -1,5 +1,24 @@
 Add-Type -AssemblyName System.Windows.Forms
 
+# PowerShell compatibility check and setup
+$PSVersionMajor = $PSVersionTable.PSVersion.Major
+if ($PSVersionMajor -lt 5) {
+    Write-Host "❌ This script requires PowerShell 5.0 or higher. Current version: $($PSVersionTable.PSVersion)" -ForegroundColor Red
+    Read-Host "Press Enter to exit..."
+    exit 1
+}
+
+# Compatibility function for PowerShell 5.1 vs 7+
+function Test-ArrayContains {
+    param($Array, $Value)
+    return $Array -contains $Value
+}
+
+function Test-ArrayNotContains {
+    param($Array, $Value)
+    return $Array -notcontains $Value
+}
+
 # Error handling - prevent window from closing on errors
 $ErrorActionPreference = "Continue"
 trap {
@@ -11,6 +30,7 @@ trap {
 
 Write-Host "🎨 Windows Theme Switcher - Configuration Manager" -ForegroundColor Cyan
 Write-Host "===============================================" -ForegroundColor Cyan
+Write-Host ("PowerShell Version: " + $PSVersionTable.PSVersion.ToString()) -ForegroundColor Gray
 Write-Host ""
 
 # Get current computer name
@@ -25,7 +45,13 @@ $currentAppsOnlyDevices = @()
 
 if (Test-Path $configFile) {
     try {
-        $config = Get-Content $configFile -Raw | ConvertFrom-Json
+        # PowerShell 5.1 compatible way to read JSON
+        if ($PSVersionMajor -ge 6) {
+            $config = Get-Content $configFile -Raw | ConvertFrom-Json
+        } else {
+            $configContent = Get-Content $configFile | Out-String
+            $config = $configContent | ConvertFrom-Json
+        }
         if ($config.appsOnlyDevices) {
             $currentAppsOnlyDevices = $config.appsOnlyDevices | Where-Object { $_ -ne "" -and $_ -ne "YOUR_COMPUTER_NAME" }
         }

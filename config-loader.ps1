@@ -1,4 +1,5 @@
 # Configuration loader for Windows Theme Switcher
+# Compatible with PowerShell 5.1 and 7+
 # This function reads the theme-config.json file and returns the apps-only devices list
 
 function Get-ThemeConfig {
@@ -7,10 +8,16 @@ function Get-ThemeConfig {
     
     if (Test-Path $configFile) {
         try {
-            $content = Get-Content $configFile -Raw -ErrorAction Stop
+            # PowerShell 5.1 compatible way to read JSON
+            $PSVersionMajor = $PSVersionTable.PSVersion.Major
+            if ($PSVersionMajor -ge 6) {
+                $content = Get-Content $configFile -Raw -ErrorAction Stop
+            } else {
+                $content = Get-Content $configFile -ErrorAction Stop | Out-String
+            }
             $config = $content | ConvertFrom-Json -ErrorAction Stop
             if ($config.appsOnlyDevices) {
-                return $config.appsOnlyDevices
+                return @($config.appsOnlyDevices)
             } else {
                 return @()
             }
