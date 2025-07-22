@@ -86,7 +86,8 @@ switch ($choice) {
         Write-Host "Current mode: $(if ($currentMode -eq '2') { 'Apps Only' } else { 'Full Theme' })" -ForegroundColor Gray
         
         do {
-            $deviceChoice = Read-Host "Choose mode for this device (1 or 2) [Default: $currentMode]"
+            $prompt = "Choose mode for this device (1 or 2) [Default: $currentMode]"
+            $deviceChoice = Read-Host $prompt
             if ($deviceChoice -eq "") { $deviceChoice = $currentMode }
         } while ($deviceChoice -notin @("1", "2"))
         
