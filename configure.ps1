@@ -9,19 +9,29 @@ $currentComputer = $env:COMPUTERNAME
 Write-Host "📊 Current computer: $currentComputer" -ForegroundColor Green
 Write-Host ""
 
-# Load existing configuration from one of the scripts
+# Load existing configuration from config file
 $scriptDir = $PSScriptRoot
-$configScript = Join-Path $scriptDir "dark-mode.ps1"
+$configFile = Join-Path $scriptDir "theme-config.json"
 $currentAppsOnlyDevices = @()
 
-if (Test-Path $configScript) {
-    $content = Get-Content $configScript -Raw
-    if ($content -match '\$appsOnlyDevices\s*=\s*@\(([^)]*)\)') {
-        $deviceString = $matches[1]
-        if ($deviceString.Trim() -ne "") {
-            $currentAppsOnlyDevices = $deviceString -split ',' | ForEach-Object { $_.Trim().Trim('"') } | Where-Object { $_ -ne "" -and $_ -ne "YOUR_COMPUTER_NAME" }
+if (Test-Path $configFile) {
+    try {
+        $config = Get-Content $configFile -Raw | ConvertFrom-Json
+        if ($config.appsOnlyDevices) {
+            $currentAppsOnlyDevices = $config.appsOnlyDevices | Where-Object { $_ -ne "" -and $_ -ne "YOUR_COMPUTER_NAME" }
         }
+    } catch {
+        Write-Warning "⚠️  Could not read config file. Using default settings."
+        $currentAppsOnlyDevices = @()
     }
+} else {
+    # Create default config file
+    $defaultConfig = @{
+        appsOnlyDevices = @()
+        version = "1.0"
+        lastModified = (Get-Date -Format "yyyy-MM-dd")
+    }
+    $defaultConfig | ConvertTo-Json -Depth 3 | Set-Content $configFile
 }
 
 # Show current configuration
@@ -180,41 +190,25 @@ if (-not ($darkExists -and $lightExists)) {
     Write-Host ""
 }
 
-# Update all PowerShell scripts
+# Save configuration to config file
 if ($choice -ne "3" -and $choice -ne "4") {
     Write-Host ""
-    Write-Host "🔧 Updating script configurations..." -ForegroundColor Yellow
+    Write-Host "� Saving configuration..." -ForegroundColor Yellow
 
-    $scripts = @(
-        "dark-mode.ps1",
-        "light-mode.ps1", 
-        "toggle-theme.ps1",
-        "set-theme-by-time.ps1"
-    )
-
-    foreach ($script in $scripts) {
-        $scriptPath = Join-Path $scriptDir $script
-        if (Test-Path $scriptPath) {
-            $content = Get-Content $scriptPath -Raw
-            
-            # Update the appsOnlyDevices array
-            if ($content -match '\$appsOnlyDevices\s*=\s*@\([^)]*\)') {
-                if ($appsOnlyDevices.Count -eq 0) {
-                    $newLine = "`$appsOnlyDevices = @()"
-                } else {
-                    $deviceList = $appsOnlyDevices | ForEach-Object { "`"$_`"" }
-                    $newLine = "`$appsOnlyDevices = @($($deviceList -join ', '))"
-                }
-                $content = $content -replace '\$appsOnlyDevices\s*=\s*@\([^)]*\)', $newLine
-            }
-            
-            Set-Content $scriptPath $content -NoNewline
-            Write-Host "  ✅ Updated: $script" -ForegroundColor Green
+    try {
+        $config = @{
+            appsOnlyDevices = @($appsOnlyDevices)
+            version = "1.0"
+            lastModified = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
         }
+        $config | ConvertTo-Json -Depth 3 | Set-Content $configFile
+        Write-Host "  ✅ Configuration saved to: theme-config.json" -ForegroundColor Green
+        
+        Write-Host ""
+        Write-Host "🎉 Configuration applied successfully!" -ForegroundColor Green
+    } catch {
+        Write-Host "  ❌ Failed to save configuration: $_" -ForegroundColor Red
     }
-    
-    Write-Host ""
-    Write-Host "🎉 Configuration applied successfully!" -ForegroundColor Green
 } else {
     Write-Host ""
     Write-Host "ℹ️  No configuration changes applied" -ForegroundColor Gray

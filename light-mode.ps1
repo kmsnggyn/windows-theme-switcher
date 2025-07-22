@@ -3,7 +3,10 @@ Add-Type -AssemblyName System.Windows.Forms
 # ----------- CONFIG -----------
 $scriptDir = $PSScriptRoot
 $lightWallpaper = Join-Path $scriptDir "_LIGHT.jpg"
-$appsOnlyDevices = @("YOUR_COMPUTER_NAME")  # Add computer names that should get apps-only theme changes
+
+# Load configuration from theme-config.json
+. (Join-Path $scriptDir "config-loader.ps1")
+$appsOnlyDevices = Get-ThemeConfig
 # ------------------------------
 
 $hostname = $env:COMPUTERNAME
