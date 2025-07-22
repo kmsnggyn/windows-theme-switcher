@@ -60,7 +60,7 @@ Write-Host ""
 
 # Configuration menu
 Write-Host "⚙️  Configuration Options:" -ForegroundColor Yellow
-Write-Host "  [1] Configure current device (${currentComputer})"
+Write-Host ("  [1] Configure current device (" + $currentComputer + ")")
 Write-Host "  [2] Add/Remove Apps-Only devices"
 Write-Host "  [3] View all device settings"
 Write-Host "  [4] Skip configuration"
@@ -77,16 +77,17 @@ switch ($choice) {
     "1" {
         # Configure current device
         Write-Host ""
-        Write-Host "🔧 Configuring ${currentComputer}:" -ForegroundColor Cyan
+        Write-Host ("🔧 Configuring " + $currentComputer + ":") -ForegroundColor Cyan
         Write-Host "  [1] Full Theme - Changes apps + taskbar/system UI"
         Write-Host "  [2] Apps Only - Changes only File Explorer and apps"
         Write-Host ""
         
         $currentMode = if ($appsOnlyDevices -contains $currentComputer) { "2" } else { "1" }
-        Write-Host "Current mode: $(if ($currentMode -eq '2') { 'Apps Only' } else { 'Full Theme' })" -ForegroundColor Gray
+        $modeText = if ($currentMode -eq '2') { 'Apps Only' } else { 'Full Theme' }
+        Write-Host ("Current mode: " + $modeText) -ForegroundColor Gray
         
         do {
-            $prompt = "Choose mode for this device (1 or 2) [Default: $currentMode]"
+            $prompt = "Choose mode for this device (1 or 2) [Default: " + $currentMode + "]"
             $deviceChoice = Read-Host $prompt
             if ($deviceChoice -eq "") { $deviceChoice = $currentMode }
         } while ($deviceChoice -notin @("1", "2"))
@@ -95,10 +96,10 @@ switch ($choice) {
             if ($appsOnlyDevices -notcontains $currentComputer) {
                 $appsOnlyDevices += $currentComputer
             }
-            Write-Host "✅ ${currentComputer} configured for Apps-Only theme changes" -ForegroundColor Green
+            Write-Host ("✅ " + $currentComputer + " configured for Apps-Only theme changes") -ForegroundColor Green
         } else {
             $appsOnlyDevices = $appsOnlyDevices | Where-Object { $_ -ne $currentComputer }
-            Write-Host "✅ ${currentComputer} configured for Full theme changes" -ForegroundColor Green
+            Write-Host ("✅ " + $currentComputer + " configured for Full theme changes") -ForegroundColor Green
         }
     }
     "2" {
@@ -132,7 +133,8 @@ switch ($choice) {
             } else {
                 Write-Host "Current Apps-Only devices:"
                 for ($i = 0; $i -lt $appsOnlyDevices.Count; $i++) {
-                    Write-Host "  [$($i+1)] $($appsOnlyDevices[$i])"
+                    $indexText = "[" + ($i+1) + "]"
+                    Write-Host ("  " + $indexText + " " + $appsOnlyDevices[$i])
                 }
                 $removeChoice = Read-Host "Enter number to remove (or 0 to cancel)"
                 $removeIndex = [int]$removeChoice - 1
