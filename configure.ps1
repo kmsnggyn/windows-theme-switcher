@@ -235,4 +235,8 @@ if ($choice -ne "3" -and $choice -ne "4") {
         Write-Host "🧪 Running toggle test..." -ForegroundColor Cyan
         & "$scriptDir\toggle-theme.ps1"
     }
+} else {
+    # For view-only or skip options, pause before closing
+    Write-Host ""
+    Read-Host "Press Enter to continue..."
 }
