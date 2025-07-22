@@ -7,15 +7,19 @@ function Get-ThemeConfig {
     
     if (Test-Path $configFile) {
         try {
-            $config = Get-Content $configFile -Raw | ConvertFrom-Json
+            $content = Get-Content $configFile -Raw -ErrorAction Stop
+            $config = $content | ConvertFrom-Json -ErrorAction Stop
             if ($config.appsOnlyDevices) {
                 return $config.appsOnlyDevices
+            } else {
+                return @()
             }
         } catch {
-            Write-Warning "Could not read theme config file. Using default settings."
+            Write-Warning "Could not read theme config file ($($_.Exception.Message)). Using default settings."
+            return @()
         }
+    } else {
+        # Config file doesn't exist - this is normal on first run
+        return @()
     }
-    
-    # Return default (empty array) if config file doesn't exist or can't be read
-    return @()
 }

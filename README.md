@@ -14,10 +14,9 @@ Automatically switch between Windows light and dark themes with matching wallpap
 
 1. **Download** this repository to your computer
 2. **Add wallpapers**: Place your `_DARK.jpg` and `_LIGHT.jpg` files in the folder
-3. **Run setup**:
-   ```powershell
-   .\initialize.ps1
-   ```
+3. **Run setup** (choose one):
+   - **Easy way**: Double-click `SETUP.bat` 
+   - **Manual way**: Open PowerShell, run `.\configure.ps1`
 4. **Start switching**:
    ```powershell
    .\toggle-theme.ps1    # Most common usage
@@ -27,7 +26,8 @@ Automatically switch between Windows light and dark themes with matching wallpap
 
 | File | Purpose |
 |------|---------|
-| `initialize.ps1` | 🔧 **Run this first** - Sets up configuration |
+| `SETUP.bat` | � **Double-click this first** - Easy setup launcher |
+| `configure.ps1` | 🔧 Configuration manager (advanced) |
 | `toggle-theme.ps1` | 🔄 Toggle between light/dark themes |
 | `dark-mode.ps1` | 🌙 Force dark mode |
 | `light-mode.ps1` | ☀️ Force light mode |
@@ -64,10 +64,12 @@ Automatically switch between Windows light and dark themes with matching wallpap
 
 | Issue | Solution |
 |-------|----------|
-| Script won't run | `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser` |
+| **Script flashes and closes** | Right-click PowerShell → "Run as Administrator", then try again |
+| **"Execution policy" error** | Run: `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser` |
+| **Script won't run at all** | Open PowerShell as Admin, navigate to folder, run `.\configure.ps1` |
+| **Config window closes immediately** | Run from PowerShell directly, not by double-clicking |
 | Wallpaper not changing | Check `_DARK.jpg` and `_LIGHT.jpg` exist in script folder |
-| UI looks weird | Restart Explorer when prompted |
-| Need admin rights | Run PowerShell as Administrator |
+| UI looks weird after theme change | Restart Explorer when prompted |
 
 ---
 **MIT License** • Feel free to customize and share!

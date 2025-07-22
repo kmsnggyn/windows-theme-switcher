@@ -1,5 +1,14 @@
 Add-Type -AssemblyName System.Windows.Forms
 
+# Error handling - prevent window from closing on errors
+$ErrorActionPreference = "Continue"
+trap {
+    Write-Host "❌ Error occurred: $_" -ForegroundColor Red
+    Write-Host ""
+    Read-Host "Press Enter to continue..."
+    continue
+}
+
 Write-Host "🎨 Windows Theme Switcher - Configuration Manager" -ForegroundColor Cyan
 Write-Host "===============================================" -ForegroundColor Cyan
 Write-Host ""
@@ -240,3 +249,7 @@ if ($choice -ne "3" -and $choice -ne "4") {
     Write-Host ""
     Read-Host "Press Enter to continue..."
 }
+
+# Final safety pause to prevent window from closing unexpectedly
+Write-Host ""
+Write-Host "🎉 Configuration complete! You can now close this window." -ForegroundColor Green
