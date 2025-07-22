@@ -1,0 +1,32 @@
+name: Validate PowerShell Scripts
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Validate PowerShell Syntax
+      shell: pwsh
+      run: |
+        $scripts = Get-ChildItem -Filter "*.ps1" -Recurse
+        foreach ($script in $scripts) {
+          Write-Host "Validating $($script.Name)..."
+          $errors = $null
+          $null = [System.Management.Automation.PSParser]::Tokenize((Get-Content $script.FullName -Raw), [ref]$errors)
+          if ($errors.Count -gt 0) {
+            Write-Error "Syntax errors found in $($script.Name):"
+            $errors | ForEach-Object { Write-Error $_.Message }
+            exit 1
+          } else {
+            Write-Host "✅ $($script.Name) syntax is valid"
+          }
+        }
+        Write-Host "All PowerShell scripts passed validation!"

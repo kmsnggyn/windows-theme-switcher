@@ -1,0 +1,48 @@
+# Windows Theme Switcher Files
+
+# Windows thumbnail cache
+Thumbs.db
+ehthumbs.db
+
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Windows shortcuts that might be system-specific
+*.lnk
+
+# Temporary files
+*.tmp
+*.temp
+$RECYCLE.BIN/
+
+# PowerShell transcript files
+PowerShell_transcript*
+
+# Registry backup files
+*.reg
+
+# Personal wallpaper files (users should add their own)
+# Uncomment the lines below if you don't want to include sample wallpapers
+# _DARK.jpg
+# _LIGHT.jpg
+
+# IDE and editor files
+.vscode/
+.vs/
+*.swp
+*.swo
+*~
+
+# Log files
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
