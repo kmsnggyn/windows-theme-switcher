@@ -78,7 +78,8 @@ foreach ($script in $scripts) {
         
         # Update the appsOnlyDevices array
         if ($content -match '\$appsOnlyDevices\s*=\s*@\([^)]*\)') {
-            $newLine = "`$appsOnlyDevices = @($($appsOnlyDevices | ForEach-Object { "`"$_`"" } | Join-String -Separator ', '))"
+            $deviceList = $appsOnlyDevices | ForEach-Object { "`"$_`"" }
+            $newLine = "`$appsOnlyDevices = @($($deviceList -join ', '))"
             $content = $content -replace '\$appsOnlyDevices\s*=\s*@\([^)]*\)', $newLine
         }
         
