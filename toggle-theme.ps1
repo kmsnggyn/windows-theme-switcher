@@ -4,7 +4,7 @@ Add-Type -AssemblyName System.Windows.Forms
 $scriptDir = $PSScriptRoot
 $lightWallpaper = Join-Path $scriptDir "_LIGHT.jpg"
 $darkWallpaper  = Join-Path $scriptDir "_DARK.jpg"
-$fullThemeDevices = @("YOUR_COMPUTER_NAME")  # Add your computer names here
+$appsOnlyDevices = @("YOUR_COMPUTER_NAME")  # Add computer names that should get apps-only theme changes
 # ------------------------------
 
 $hostname = $env:COMPUTERNAME
@@ -16,7 +16,7 @@ $newMode = $appMode -bxor 1
 Set-ItemProperty -Path $regPath -Name AppsUseLightTheme -Value $newMode
 
 # Conditionally apply system (taskbar) mode
-if ($fullThemeDevices -contains $hostname) {
+if ($appsOnlyDevices -notcontains $hostname) {
     Set-ItemProperty -Path $regPath -Name SystemUsesLightTheme -Value $newMode
 }
 
