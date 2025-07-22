@@ -14,6 +14,7 @@ A collection of PowerShell scripts to automatically switch between Windows light
 ## Files
 
 ### PowerShell Scripts
+- `initialize.ps1` - Setup script to configure all other scripts
 - `dark-mode.ps1` - Switch to dark mode
 - `light-mode.ps1` - Switch to light mode
 - `toggle-theme.ps1` - Toggle between light and dark themes
@@ -29,13 +30,26 @@ A collection of PowerShell scripts to automatically switch between Windows light
 
 ## Setup
 
+### Quick Setup (Recommended)
 1. **Clone or download** this repository
 2. **Place wallpapers**: Put your dark and light wallpapers in the same folder as the scripts, named `_DARK.jpg` and `_LIGHT.jpg`
-3. **Configure devices** (optional): Edit the `$fullThemeDevices` array in the scripts to specify which computers should have system-wide theme changes
-4. **Set execution policy** (if needed):
+3. **Run the initialization script**:
+   ```powershell
+   .\initialize.ps1
+   ```
+   This will:
+   - Detect your computer name automatically
+   - Ask about theme scope (apps-only vs full theme)
+   - Configure all scripts with your preferences
+   - Check for wallpaper files
+
+### Manual Setup
+If you prefer manual configuration:
+1. **Set execution policy** (if needed):
    ```powershell
    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
    ```
+2. **Configure devices**: Edit the `$fullThemeDevices` array in each script to specify which computers should have system-wide theme changes
 
 ## Usage
 
