@@ -1,6 +1,18 @@
 # Windows Theme Switcher
 
-Automatically switch between## 💻 Requirements
+Au## 📁 What's Included
+
+| File | Purpose |
+|------|---------|
+| `SETUP.bat` | 🚀 **Double-click this first** - Easy setup launcher |
+| `configure.ps1` | 🔧 Configuration manager (advanced) |
+| `toggle-theme.ps1` | 🔄 Toggle between light/dark themes |
+| `dark-mode.ps1` | 🌙 Force dark mode |
+| `light-mode.ps1` | ☀️ Force light mode |
+| `set-theme-by-time.ps1` | ⏰ Auto-switch by time (8AM-5PM light) |
+| `add-start-menu-shortcut.ps1` | 📍 Add theme toggle to Start Menu |
+| `quick-start-menu-setup.ps1` | 🚀 Add all theme shortcuts to Start Menu |
+| `*.vbs` files | 🔇 Silent versions (no windows) | switch between## 💻 Requirements
 
 - **Windows 10/11** (any recent version)
 - **PowerShell 5.1 or higher** (built into Windows)
@@ -48,6 +60,11 @@ Automatically switch between## 💻 Requirements
 > 💡 Most users prefer Full Theme for a consistent experience
 
 ## 🤖 Automation Ideas
+
+### Start Menu Shortcuts (Recommended)
+1. **Easy setup**: Run `.\quick-start-menu-setup.ps1`
+2. **Custom setup**: Run `.\add-start-menu-shortcut.ps1`
+3. Press **Win key** → Type "theme" → Select option
 
 ### Keyboard Shortcuts
 1. Right-click `toggle-theme.vbs` → Create shortcut
